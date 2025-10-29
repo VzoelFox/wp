@@ -2,7 +2,6 @@
 require('dotenv').config();
 
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
 const fs = require('fs').promises;
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -27,8 +26,14 @@ const client = new Client({
 console.log('Memulai client...');
 
 client.on('qr', (qr) => {
-    console.log('QR Code diterima, silakan pindai:');
-    qrcode.generate(qr, { small: true });
+    // NOTE: This event is fired when a QR code is received, even if you're using the "Link with phone number" feature.
+    // We can safely ignore the QR code here and wait for the 'code' event.
+    console.log('Menunggu kode tautan...');
+});
+
+client.on('code', (code) => {
+    console.log('Kode tautan diterima:', code);
+    console.log('Buka WhatsApp di ponsel Anda > Perangkat Tertaut > Tautkan perangkat > Tautkan dengan nomor telepon > Masukkan kode di atas.');
 });
 
 client.on('ready', () => {
