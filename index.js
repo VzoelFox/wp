@@ -18,7 +18,10 @@ const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 // Inisialisasi WhatsApp client
 const client = new Client({
-    authStrategy: new LocalAuth()
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }
 });
 
 console.log('Memulai client...');
