@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const { Client, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
 const fs = require('fs').promises;
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -26,9 +27,8 @@ const client = new Client({
 console.log('Memulai client...');
 
 client.on('qr', (qr) => {
-    // NOTE: This event is fired when a QR code is received, even if you're using the "Link with phone number" feature.
-    // We can safely ignore the QR code here and wait for the 'code' event.
-    console.log('Menunggu kode tautan...');
+    console.log('QR RECEIVED', qr);
+    qrcode.generate(qr, { small: true });
 });
 
 client.on('code', (code) => {
