@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 const makeWASocket = require('@whiskeysockets/baileys').default;
-const { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
+const { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, Browsers } = require('@whiskeysockets/baileys');
 const fs = require('fs').promises;
 const path = require('path');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -52,7 +52,7 @@ async function connectToWhatsApp() {
         version,
         auth: state,
         printQRInTerminal: false, // We will use pairing code
-        browser: ['JulesBot', 'Chrome', '1.0.0'],
+        browser: Browsers.macOS('Chrome'),
     });
 
     // Handle pairing code
