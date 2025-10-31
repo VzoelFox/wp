@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 const makeWASocket = require('@whiskeysockets/baileys').default;
-const { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
+const { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, Browsers } = require('@whiskeysockets/baileys');
 const fs = require('fs').promises;
 const path = require('path');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -52,15 +52,18 @@ async function connectToWhatsApp() {
         version,
         auth: state,
         printQRInTerminal: false, // We will use pairing code
-        browser: ['JulesBot', 'Chrome', '1.0.0'],
+        browser: Browsers.macOS('Chrome'),
     });
 
     // Handle pairing code
     if (!sock.authState.creds.registered) {
-        const phoneNumber = process.env.WA_PHONE_NUMBER;
+        let phoneNumber = process.env.WA_PHONE_NUMBER;
         if (!phoneNumber) {
-            console.error('Kesalahan: WA_PHONE_NUMBER tidak ditemukan di file .env.');
-            console.error('Harap tambahkan nomor WhatsApp Anda (dengan kode negara) ke file .env.');
+            phoneNumber = await question('Nomor WhatsApp tidak ditemukan di .env. Masukkan nomor Anda (cth: 6281234567890): ');
+        }
+
+        if (!phoneNumber) {
+            console.error('Nomor telepon tidak diberikan. Proses dihentikan.');
             process.exit(1);
         }
 
