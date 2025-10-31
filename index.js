@@ -57,10 +57,13 @@ async function connectToWhatsApp() {
 
     // Handle pairing code
     if (!sock.authState.creds.registered) {
-        const phoneNumber = process.env.WA_PHONE_NUMBER;
+        let phoneNumber = process.env.WA_PHONE_NUMBER;
         if (!phoneNumber) {
-            console.error('Kesalahan: WA_PHONE_NUMBER tidak ditemukan di file .env.');
-            console.error('Harap tambahkan nomor WhatsApp Anda (dengan kode negara) ke file .env.');
+            phoneNumber = await question('Nomor WhatsApp tidak ditemukan di .env. Masukkan nomor Anda (cth: 6281234567890): ');
+        }
+
+        if (!phoneNumber) {
+            console.error('Nomor telepon tidak diberikan. Proses dihentikan.');
             process.exit(1);
         }
 
