@@ -20,7 +20,7 @@
   "homepage": "https://github.com/VzoelFox/wp#readme",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@whiskeysockets/baileys": "^7.0.0-rc.6",
+    "@whiskeysockets/baileys": "^6.7.20",
     "dotenv": "^17.2.3"
   }
 }
